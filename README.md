@@ -2,9 +2,7 @@
 # C++ Fundamentals for ROS2 Robotics
 Quick reference guide for C++ syntax and ROS2 examples on Ubuntu 22.04 with ROS2 Humble.
 
-## 🚀 Getting Started
-
-### Clone and Run
+## Getting Started
 ```bash
 # Clone this repository
 git clone https://github.com/YOUR_USERNAME/cpp-ros2-fundamentals.git
@@ -15,8 +13,6 @@ cd 01_helloworld
 g++ -std=c++17 01_helloworld.cpp -o helloworld
 ./helloworld
 ```
-
----
 
 ##  Contents
 ### Basics
@@ -65,4 +61,3 @@ ros2 run your_package node_name
 **Intermediate**: 09 → 12  
 **Advanced/ROS2 Ready**: 13 → 19
 ---
-```
