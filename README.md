@@ -4,8 +4,8 @@ Quick reference guide for C++ syntax and ROS2 examples on Ubuntu 22.04 with ROS2
 ## Getting Started
 ```bash
 # Clone this repository
-git clone https://github.com/YOUR_USERNAME/cpp-ros2-fundamentals.git
-cd cpp-ros2-fundamentals
+git clone https://github.com/AungKaung1928/cpp-ros2-reference.git
+cd cpp-ros2-reference
 
 # Compile any example
 cd 01_helloworld
