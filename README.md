@@ -65,3 +65,7 @@ ros2 run your_package node_name
 **Beginners**: 01 → 08  
 **Intermediate**: 09 → 12  
 **Advanced/ROS2 Ready**: 13 → 19
+
+## License
+
+MIT, see LICENSE.
