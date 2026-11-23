@@ -68,7 +68,10 @@ public:
     pub_ = this->create_publisher<geometry_msgs::msg::Twist>("cmd_vel", 10);
     
     // Create controller with shared_ptr
-    controller_ = make_shared<RobotController>("Robot_1");
+    // std:: is required here: inside an rclcpp::Node subclass, unqualified
+    // make_shared / make_unique find Node's own static make_shared<Args...>
+    // (RCLCPP_SMART_PTR_DEFINITIONS) and fail to compile.
+    controller_ = std::make_shared<RobotController>("Robot_1");
     
     // Multiple references to same controller
     shared_ptr<RobotController> backup_controller = controller_;
@@ -78,7 +81,7 @@ public:
     controller_->move(pub_);
     
     // unique_ptr for temporary data
-    unique_ptr<int[]> sensor_data = make_unique<int[]>(10);
+    unique_ptr<int[]> sensor_data = std::make_unique<int[]>(10);
     for(int i = 0; i < 10; i++) {
       sensor_data[i] = i * 10;
     }

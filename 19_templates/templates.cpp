@@ -138,8 +138,8 @@ private:
   
 public:
   TemplateRobotNode() : Node("template_robot"), distance_buffer_(10), velocity_buffer_(10) {
-    // Use template-based processor
-    laser_processor_ = make_unique<LaserProcessor>(this, "scan");
+    // Use template-based processor (std:: needed: rclcpp::Node has its own make_unique)
+    laser_processor_ = std::make_unique<LaserProcessor>(this, "scan");
     
     // Test sensor buffers
     for(int i = 0; i < 15; i++) {
