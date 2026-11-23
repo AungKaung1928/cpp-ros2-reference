@@ -31,3 +31,13 @@ jobs:
           source /opt/ros/humble/setup.bash
           colcon test --event-handlers console_direct+
           colcon test-result --verbose
+      - name: README example (oddeven)
+        run: |
+          source /opt/ros/humble/setup.bash
+          source install/setup.bash
+          timeout 30 ros2 run cpp_ros2_reference oddeven > oddeven.log 2>&1 &
+          sleep 3
+          ros2 topic pub -t 3 /number std_msgs/msg/Int32 "{data: 7}"
+          sleep 1
+          cat oddeven.log
+          grep -q "7 is odd" oddeven.log
