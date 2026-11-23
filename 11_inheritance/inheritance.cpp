@@ -24,6 +24,7 @@ void general_example() {
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 class BaseRobot : public rclcpp::Node {
 protected:
   rclcpp::Publisher<geometry_msgs::msg::Twist>::SharedPtr pub_;
@@ -54,7 +55,7 @@ public:
   }
   
   void navigate(const sensor_msgs::msg::LaserScan::SharedPtr scan) {
-    float front = scan->ranges[scan->ranges.size() / 2];
+    float front = scan->ranges[cpp_ros2_reference::ray_index(*scan, 0.0)];
     auto cmd = geometry_msgs::msg::Twist();
     
     if(front < 0.5) {

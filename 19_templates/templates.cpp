@@ -63,6 +63,7 @@ void general_example() {
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 #include "std_msgs/msg/float64.hpp"
 // Template for generic message processor
 template<typename MsgType>
@@ -126,7 +127,7 @@ public:
     : MessageProcessor(node, topic), node_(node) {}
   
   void process(const sensor_msgs::msg::LaserScan::SharedPtr msg) override {
-    float front = msg->ranges[msg->ranges.size() / 2];
+    float front = msg->ranges[cpp_ros2_reference::ray_index(*msg, 0.0)];
     RCLCPP_INFO(node_->get_logger(), "Laser front distance: %.2f", front);
   }
 };

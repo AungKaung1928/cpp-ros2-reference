@@ -19,6 +19,7 @@ void general_example() {
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 class WallFollowerNode : public rclcpp::Node {
 private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr sub_;
@@ -28,7 +29,7 @@ public:
     sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
       "scan", 10, [this](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
         auto cmd = geometry_msgs::msg::Twist();
-        float front = msg->ranges[msg->ranges.size() / 2];
+        float front = msg->ranges[cpp_ros2_reference::ray_index(*msg, 0.0)];
         
         while(front > 0.5){  // Keep moving while distance > 0.5m
           cmd.linear.x = 0.2;

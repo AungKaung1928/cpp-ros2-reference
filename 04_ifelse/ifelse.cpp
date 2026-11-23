@@ -22,6 +22,7 @@ void general_example() {
 // ===== ROS2 EXAMPLE =====
 #include "rclcpp/rclcpp.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 class ObstacleDetectorNode : public rclcpp::Node {
 private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr sub_;
@@ -29,9 +30,9 @@ public:
   ObstacleDetectorNode() : Node("obstacle_detector") {
     sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
       "scan", 10, [this](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
-        float front = msg->ranges[msg->ranges.size() / 2];
-        float left = msg->ranges[msg->ranges.size() / 4];
-        float right = msg->ranges[3 * msg->ranges.size() / 4];
+        float front = msg->ranges[cpp_ros2_reference::ray_index(*msg, 0.0)];
+        float left = msg->ranges[cpp_ros2_reference::ray_index(*msg, M_PI / 2)];
+        float right = msg->ranges[cpp_ros2_reference::ray_index(*msg, -M_PI / 2)];
         
         if(front > left && front > right){
           RCLCPP_INFO(this->get_logger(), "Front is clearest: %.2f", front);

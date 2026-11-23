@@ -14,6 +14,7 @@ void general_example() {
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 class ObstacleAvoidanceNode : public rclcpp::Node {
 private:
   rclcpp::Subscription<sensor_msgs::msg::LaserScan>::SharedPtr sub_;
@@ -30,9 +31,9 @@ public:
   ObstacleAvoidanceNode() : Node("obstacle_avoidance") {
     sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
       "scan", 10, [this](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
-        float front = msg->ranges[msg->ranges.size() / 2];
-        float left = msg->ranges[msg->ranges.size() / 4];
-        float right = msg->ranges[3 * msg->ranges.size() / 4];
+        float front = msg->ranges[cpp_ros2_reference::ray_index(*msg, 0.0)];
+        float left = msg->ranges[cpp_ros2_reference::ray_index(*msg, M_PI / 2)];
+        float right = msg->ranges[cpp_ros2_reference::ray_index(*msg, -M_PI / 2)];
         
         auto cmd = geometry_msgs::msg::Twist();
         cmd.linear.x = calculateSpeed(front);

@@ -46,6 +46,7 @@ void general_example() {
 #include "rclcpp/rclcpp.hpp"
 #include "geometry_msgs/msg/twist.hpp"
 #include "sensor_msgs/msg/laser_scan.hpp"
+#include "cpp_ros2_reference/ray_index.hpp"
 #include "std_msgs/msg/int32.hpp"
 class LambdaRobotNode : public rclcpp::Node {
 private:
@@ -61,7 +62,7 @@ public:
     // Lambda in subscription callback
     laser_sub_ = this->create_subscription<sensor_msgs::msg::LaserScan>(
       "scan", 10, [this](const sensor_msgs::msg::LaserScan::SharedPtr msg) {
-        float front = msg->ranges[msg->ranges.size() / 2];
+        float front = msg->ranges[cpp_ros2_reference::ray_index(*msg, 0.0)];
         
         auto cmd = geometry_msgs::msg::Twist();
         if(front < 0.5) {
